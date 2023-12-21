@@ -4,11 +4,14 @@ namespace App\Http\Controllers;
 
 class CaptchaCodeController extends Controller
 {
+    /**
+     * 获取验证码
+     *
+     * @return false|string
+     */
     public function captcha(): false|string
     {
-        return json_encode([
-            'status_code' => '200',
-            'message' => '验证码获取成功',
+        return statusResponse(200, true, '验证码获取成功', [
             'url' => app('captcha')->create('default', true)
         ]);
     }
