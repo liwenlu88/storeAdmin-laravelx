@@ -8,7 +8,13 @@ use Illuminate\Support\Facades\Redis;
 
 class SignUpController extends Controller
 {
-    public function login(LoginRequest $request)
+    /**
+     * 后台登录
+     *
+     * @param LoginRequest $request
+     * @return false|string
+     */
+    public function login(LoginRequest $request): false|string
     {
         // 验证码验证
         if (!captcha_api_check($request->captchaCode, $request->captchaKey)) {
