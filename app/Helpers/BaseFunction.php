@@ -1,18 +1,17 @@
 <?php
 
-use Illuminate\Http\JsonResponse;
-
 /**
  * 返回结果处理
  *
  * @param $status
  * @param $success
  * @param $message
- * @return JsonResponse
+ * @param array $content
+ * @return false|string
  */
-function statusResponse($status, $success, $message, $content = []): JsonResponse
+function statusResponse($status, $success, $message, array $content = []): false|string
 {
-    return response()->json([
+    return json_encode([
         'status' => $status,
         'success' => $success,
         'message' => $message,
