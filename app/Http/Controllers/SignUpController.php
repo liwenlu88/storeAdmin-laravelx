@@ -18,7 +18,7 @@ class SignUpController extends Controller
     {
         // 验证码验证
         if (!captcha_api_check($request->captchaCode, $request->captchaKey)) {
-            return statusResponse(0, false, '验证码错误');
+            return statusResponse(400, false, '验证码错误');
         }
 
         // 获取账号密码
@@ -30,7 +30,7 @@ class SignUpController extends Controller
             $token = bin2hex(openssl_random_pseudo_bytes(30));
 
             // token 的过期时间，30 分钟
-            $expiresIn = 180;
+            $expiresIn = 1800;
 
             // 将 token 存储到 Redis 中
             $userId = Auth::id();
@@ -47,12 +47,12 @@ class SignUpController extends Controller
                 true,
                 '登录成功',
                 [
-                    'token' => $token,
-                    'expiresAt' => $expiresAt
+                    'access_token' => $token,
+                    'expires_at' => $expiresAt
                 ]
             );
         }
 
-        return statusResponse(0, false, '账号或密码错误');
+        return statusResponse(400, false, '账号或密码错误');
     }
 }
