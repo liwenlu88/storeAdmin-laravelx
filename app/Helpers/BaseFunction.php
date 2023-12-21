@@ -10,11 +10,12 @@ use Illuminate\Http\JsonResponse;
  * @param $message
  * @return JsonResponse
  */
-function statusResponse($status, $success, $message): JsonResponse
+function statusResponse($status, $success, $message, $content = []): JsonResponse
 {
     return response()->json([
         'status' => $status,
         'success' => $success,
-        'message' => $message
+        'message' => $message,
+        'content' => $content
     ]);
 }
