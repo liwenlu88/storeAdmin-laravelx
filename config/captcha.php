@@ -7,11 +7,11 @@ return [
         'length' => 4,
         'width' => 120,
         'height' => 40,
-        'quality' => 0,
+        'quality' => 1000,
         'math' => false,
         'expire' => 60,
         'encrypt' => false,
-        'invert' => true,
+        'invert' => false,
         'blur' => 2,
     ],
     'math' => [
