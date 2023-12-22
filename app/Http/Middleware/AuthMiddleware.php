@@ -23,7 +23,7 @@ class AuthMiddleware
         }
 
         // 存在则刷新token过期时间 30分钟
-        Redis::expire("user:login:{$accessToken}:token", 1800);
+        Redis::expire("user:login:{$tokenKey}:token", 1800);
 
         // 存在则放行
         return $next($request);

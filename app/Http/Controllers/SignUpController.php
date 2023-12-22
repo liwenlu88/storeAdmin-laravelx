@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\LoginRequest;
+use App\Models\User;
+use Exception;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redis;
 
@@ -59,11 +62,20 @@ class SignUpController extends Controller
 
     /**
      * 获取用户信息
-     *
-     * @return false|string
      */
-    public function info(): false|string
+    public function info(Request $request)
     {
-        return '1';
+        try {
+            // 获取用户信息
+            $user = User::where('id', $request->header('user_id'))
+                ->first(['name', 'avatar']);
+        } catch (Exception $e) {
+            return statusJson(400, false, $e->getMessage());
+        }
+
+        return statusJson(200, true, '获取成功', [
+            'userName' => $user->name,
+            'avatar' => env('APP_URL') . $user->avatar,
+        ]);
     }
 }
