@@ -11,7 +11,7 @@ class CaptchaCodeController extends Controller
      */
     public function captcha(): false|string
     {
-        return statusResponse(200, true, '验证码获取成功', [
+        return statusJson(200, true, '验证码获取成功', [
             'url' => app('captcha')->create('default', true)
         ]);
     }
