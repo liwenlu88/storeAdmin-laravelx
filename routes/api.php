@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\SignUpController;
-use Illuminate\Http\Request;
+use App\Http\Middleware\AuthMiddleware;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,9 +15,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
-
 // AdminLogin
 Route::post('/admin/user/login', [SignUpController::class, 'login']);
+
+// 用户信息
+Route::middleware([AuthMiddleware::class])->group(function () {
+    Route::post('/admin/user/info', [SignUpController::class, 'info']);
+});

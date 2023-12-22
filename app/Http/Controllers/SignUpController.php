@@ -18,7 +18,7 @@ class SignUpController extends Controller
     {
         // 验证码验证
         if (!captcha_api_check($request->captchaCode, $request->captchaKey)) {
-            return statusResponse(400, false, '验证码错误');
+            return statusJson(400, false, '验证码错误');
         }
 
         // 获取账号密码
@@ -34,25 +34,36 @@ class SignUpController extends Controller
 
             // 将 token 存储到 Redis 中
             $userId = Auth::id();
-            Redis::set("user:{$userId}:token", $token);
+            Redis::set("user:login:{$userId}:token", $token);
 
             // 设置 token 的过期时间
-            Redis::expire("user:{$userId}:token", $expiresIn);
+            Redis::expire("user:login:{$userId}:token", $expiresIn);
 
             // 获取当前时间并计算 token 过期的具体时间戳
             $expiresAt = now()->addSeconds($expiresIn)->timestamp;
 
-            return statusResponse(
+            return statusJson(
                 200,
                 true,
                 '登录成功',
                 [
+                    'user_id' => $userId,
                     'access_token' => $token,
                     'expires_at' => $expiresAt
                 ]
             );
         }
 
-        return statusResponse(400, false, '账号或密码错误');
+        return statusJson(400, false, '账号或密码错误');
+    }
+
+    /**
+     * 获取用户信息
+     *
+     * @return false|string
+     */
+    public function info(): false|string
+    {
+        return '1';
     }
 }
