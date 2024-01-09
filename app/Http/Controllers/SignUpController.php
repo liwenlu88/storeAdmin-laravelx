@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\LoginRequest;
-use App\Models\User;
+
 use Exception;
+use App\Models\User;
 use Illuminate\Http\Request;
+use App\Http\Requests\LoginRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redis;
 
@@ -45,37 +46,62 @@ class SignUpController extends Controller
             // 获取当前时间并计算 token 过期的具体时间戳
             $expiresAt = now()->addSeconds($expiresIn)->timestamp;
 
-            return statusJson(
-                200,
-                true,
-                '登录成功',
-                [
-                    'user_id' => $userId,
-                    'access_token' => $token,
-                    'expires_at' => $expiresAt
-                ]
-            );
+            return statusJson(200, true, '登录成功', [
+                'user_id' => $userId,
+                'access_token' => $token,
+                'expires_at' => $expiresAt
+            ]);
         }
 
         return statusJson(400, false, '账号或密码错误');
     }
 
     /**
-     * 获取用户信息
+     * 后台登出
+     *
+     * @param Request $request
+     * @return false|string
      */
-    public function info(Request $request)
+    public function logout(Request $request): false|string
+    {
+        // 获取用户 id
+        $userId = $request->header('user_id');
+        try {
+            // 删除 Redis 中的 token
+            Redis::del("user:login:{$userId}:token");
+        } catch (Exception $e) {
+            return statusJson(400, false, $e->getMessage());
+        }
+
+        return statusJson(200, true, '退出成功');
+    }
+
+    /**
+     * 获取用户信息
+     * @param Request $request
+     * @return false|string
+     */
+    public function getUserInfo(Request $request): false|string
     {
         try {
-            // 获取用户信息
             $user = User::where('id', $request->header('user_id'))
-                ->first(['name', 'avatar']);
+                ->first(['id', 'name', 'email', 'avatar']);
         } catch (Exception $e) {
             return statusJson(400, false, $e->getMessage());
         }
 
         return statusJson(200, true, '获取成功', [
-            'userName' => $user->name,
-            'avatar' => env('APP_URL') . $user->avatar,
+            'user_id' => $user->id,
+            'user_name' => $user->name,
+            'user_email' => $user->email,
+            'user_avatar' => $user->avatar,
+        ]);
+    }
+
+    public function updateUserInfo(Request $request)
+    {
+        return statusResponse(200, true, '更新成功', [
+            'request' => $request->all(),
         ]);
     }
 }

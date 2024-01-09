@@ -19,7 +19,7 @@ class AuthMiddleware
 
         // 判断 token 是否存在 或者 token 是否正确
         if (!$accessToken || (Redis::get("user:login:{$tokenKey}:token") != $accessToken)) {
-            return statusResponse(401, false, '请先登录');
+            return statusResponse(401, false, '请重新登录');
         }
 
         // 存在则刷新token过期时间 30分钟

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\SignUpController;
+use App\Http\Controllers\UploadFileController;
 use App\Http\Middleware\AuthMiddleware;
 use Illuminate\Support\Facades\Route;
 
@@ -15,10 +16,16 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// AdminLogin
+// 后台登录
 Route::post('/admin/user/login', [SignUpController::class, 'login']);
 
-// 用户信息
 Route::middleware([AuthMiddleware::class])->group(function () {
-    Route::post('/admin/user/info', [SignUpController::class, 'info']);
+    // 用户信息
+    Route::post('/admin/user/info', [SignUpController::class, 'getUserInfo']);
+    // 更新用户信息
+    Route::post('/admin/user/update', [SignUpController::class, 'updateUserInfo']);
+    // 用户退出
+    Route::post('/admin/user/logout', [SignUpController::class, 'logout']);
+    // 上传文件
+    Route::post('/admin/upload/image', [UploadFileController::class, 'uploadImages']);
 });
