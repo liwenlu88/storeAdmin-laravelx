@@ -38,10 +38,10 @@ class SignUpController extends Controller
 
             // 将 token 存储到 Redis 中
             $userId = Auth::id();
-            Redis::set("user:login:{$userId}:token", $token);
+            Redis::set("user:login:$userId:token", $token);
 
             // 设置 token 的过期时间
-            Redis::expire("user:login:{$userId}:token", $expiresIn);
+            Redis::expire("user:login:$userId:token", $expiresIn);
 
             // 获取当前时间并计算 token 过期的具体时间戳
             $expiresAt = now()->addSeconds($expiresIn)->timestamp;
@@ -68,7 +68,7 @@ class SignUpController extends Controller
         $userId = $request->header('user_id');
         try {
             // 删除 Redis 中的 token
-            Redis::del("user:login:{$userId}:token");
+            Redis::del("user:login:$userId:token");
         } catch (Exception $e) {
             return statusJson(400, false, $e->getMessage());
         }
@@ -105,4 +105,3 @@ class SignUpController extends Controller
         ]);
     }
 }
-
