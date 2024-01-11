@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CaptchaCodeController;
 use App\Http\Controllers\SignUpController;
 use App\Http\Controllers\UploadFileController;
 use App\Http\Middleware\AuthMiddleware;
@@ -15,6 +16,9 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
+
+// 验证码
+Route::post('/captcha_code', [CaptchaCodeController::class, 'captcha']);
 
 // 后台登录
 Route::post('/admin/user/login', [SignUpController::class, 'login']);
