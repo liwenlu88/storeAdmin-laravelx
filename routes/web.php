@@ -10,3 +10,9 @@
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+
+use Illuminate\Support\Facades\Route;
+
+Route::get('/', function () {
+    phpinfo();
+});

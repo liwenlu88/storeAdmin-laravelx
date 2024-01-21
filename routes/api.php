@@ -23,6 +23,7 @@ Route::post('/captcha_code', [CaptchaCodeController::class, 'captcha']);
 // 后台登录
 Route::post('/admin/user/login', [SignUpController::class, 'login']);
 
+// 经过登录中间件验证
 Route::middleware([AuthMiddleware::class])->group(function () {
     // 用户信息
     Route::post('/admin/user/info', [SignUpController::class, 'getUserInfo']);

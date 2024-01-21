@@ -13,12 +13,13 @@ use Illuminate\Http\JsonResponse;
  */
 function statusResponse($status, $success, $message, array $content = []): JsonResponse
 {
-    return response()->json([
+    $data = [
         'status' => $status,
         'success' => $success,
         'message' => $message,
         'content' => $content,
-    ]);
+    ];
+    return response()->json($data);
 }
 
 /**
@@ -31,10 +32,11 @@ function statusResponse($status, $success, $message, array $content = []): JsonR
  */
 function statusJson($status, $success, $message, array $content = []): false|string
 {
-    return json_encode([
+    $data = [
         'status' => $status,
         'success' => $success,
         'message' => $message,
         'content' => $content,
-    ]);
+    ];
+    return json_encode($data);
 }
