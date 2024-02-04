@@ -11,7 +11,7 @@ class LoginRequest extends FormRequest
      *
      * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
         return true; // 这里默认为 true，表示所有用户都可以发出此请求
     }
@@ -21,11 +21,11 @@ class LoginRequest extends FormRequest
      *
      * @return array
      */
-    public function rules()
+    public function rules(): array
     {
         return [
             'email' => 'required|email|exists:users,email',
-            'password' => 'required|min:8|max:18',
+            'password' => 'required|min:6|max:18',
             'captchaCode' => 'required|size:4'
         ];
     }
@@ -35,14 +35,14 @@ class LoginRequest extends FormRequest
      *
      * @return array
      */
-    public function messages()
+    public function messages(): array
     {
         return [
             'email.required' => '邮箱不能为空',
             'email.email' => '邮箱格式不正确',
             'email.exists' => '账户不存在',
             'password.required' => '密码不能为空',
-            'password.min' => '密码长度不能小于8位',
+            'password.min' => '密码长度不能小于6位',
             'password.max' => '密码长度不能大于18位',
             'captchaCode.required' => '验证码不能为空',
             'captchaCode.size' => '验证码长度不正确',

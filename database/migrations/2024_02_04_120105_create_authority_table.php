@@ -10,15 +10,14 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('authority', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
             $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
-            $table->string('avatar')->nullable();
-            $table->string('description')->nullable();
-            $table->rememberToken();
+            $table->string('name');
+            $table->foreignId('user_id')->constrained('users');
+            $table->string('model_edit')->comment('模块编辑权限');
+            $table->string('model_reade_only')->comment('模块只读权限');
+            $table->string('model_invisible')->comment('模块不可见权限');
             $table->timestamps();
         });
     }
@@ -28,6 +27,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('authority');
     }
 };

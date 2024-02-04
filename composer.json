@@ -10,12 +10,13 @@
   "require": {
     "php": "^8.3",
     "ext-mysqli": "*",
+    "ext-openssl": "*",
     "guzzlehttp/guzzle": "^7.2",
     "laravel/framework": "^10.10",
     "laravel/sanctum": "^3.3",
     "laravel/tinker": "^2.8",
     "mews/captcha": "^3.3",
-    "ext-openssl": "*"
+    "predis/predis": "^2.2"
   },
   "require-dev": {
     "fakerphp/faker": "^1.9.1",

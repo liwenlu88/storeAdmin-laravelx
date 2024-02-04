@@ -3,6 +3,7 @@
 use App\Http\Controllers\CaptchaCodeController;
 use App\Http\Controllers\SignUpController;
 use App\Http\Controllers\UploadFileController;
+use App\Http\Controllers\UserController;
 use App\Http\Middleware\AuthMiddleware;
 use Illuminate\Support\Facades\Route;
 
@@ -25,12 +26,16 @@ Route::post('/admin/user/login', [SignUpController::class, 'login']);
 
 // 经过登录中间件验证
 Route::middleware([AuthMiddleware::class])->group(function () {
-    // 用户信息
-    Route::post('/admin/user/info', [SignUpController::class, 'getUserInfo']);
-    // 更新用户信息
-    Route::post('/admin/user/update', [SignUpController::class, 'updateUserInfo']);
     // 用户退出
     Route::post('/admin/user/logout', [SignUpController::class, 'logout']);
-    // 上传文件
-    Route::post('/admin/upload/image', [UploadFileController::class, 'uploadImages']);
+    // 用户信息
+    Route::post('/admin/user/info', [UserController::class, 'getUserInfo']);
+    // 上传头像
+    Route::post('/admin/upload/avatar', [UploadFileController::class, 'uploadAvatar']);
+    // 更新用户信息
+    Route::post('/admin/user/update', [UserController::class, 'updateUserInfo']);
+    // 验证旧密码是否正确
+    Route::post('/admin/user/verify_password', [UserController::class, 'verifyPassword']);
+    // 更新密码
+    Route::post('/admin/user/update_password', [UserController::class, 'updatePassword']);
 });

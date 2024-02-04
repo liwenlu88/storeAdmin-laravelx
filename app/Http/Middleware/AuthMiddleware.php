@@ -15,15 +15,15 @@ class AuthMiddleware
     {
         // 获取请求头中的 access_token 和 user_id -- 作为key来验证
         $accessToken = $request->header('access_token');
-        $tokenKey = $request->header('user_id');
+        $id = $request->header('user_id');
 
         // 判断 token 是否存在 或者 token 是否正确
-        if (!$accessToken || (Redis::get("user:login:$tokenKey:token") != $accessToken)) {
+        if (!$accessToken || (Redis::get("user:login:$id:token") != $accessToken)) {
             return statusResponse(401, false, '请重新登录');
         }
 
         // 存在则刷新token过期时间 30分钟
-        Redis::expire("user:login:$tokenKey:token", 1800);
+        Redis::expire("user:login:$id:token", 1800);
 
         // 存在则放行
         return $next($request);
