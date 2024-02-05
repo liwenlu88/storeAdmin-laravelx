@@ -10,12 +10,15 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('authority', function (Blueprint $table) {
+        Schema::create('menus', function (Blueprint $table) {
             $table->id();
-            $table->string('email')->unique();
             $table->string('name');
-            $table->foreignId('user_id')->constrained('users');
-            $table->string('menu_id')->comment('菜单id');
+            $table->string('url');
+            $table->string('icon');
+            $table->integer('parent_id')->default(0);
+            $table->integer('order')->default(1);
+            $table->integer('is_deleted')->default(1)->comment('0=deleted, 1=active');
+            $table->timestamp('deleted_at')->nullable();
             $table->timestamps();
         });
     }
@@ -25,6 +28,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('authority');
+        Schema::dropIfExists('menu');
     }
 };
