@@ -89,10 +89,8 @@ class MenuSeeder extends Seeder
             ]
         ];
 
-        foreach ($menus as $key => $menu) {
-            $menuData = $menuArray[$key];
-
-            $menu->update($menuData);
+        foreach ($menuArray as $key => $item) {
+            $menus[$key]->update($item);
         }
     }
 }

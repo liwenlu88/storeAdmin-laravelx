@@ -12,11 +12,23 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        $users = User::factory(10)->create();
+        $users = User::factory(32)->create();
 
-        $users[0]->name = 'Admin';
-        $users[0]->email = '2816842036@qq.com';
-        $users[0]->password = bcrypt('lwl20030608');
-        $users[0]->save();
+        $userArray = [
+            [
+                'name' => '肌无力猛男',
+                'email' => '2816842036@qq.com',
+                'password' => bcrypt('lwl20030608')
+            ],
+            [
+                'name' => '测试用户',
+                'email' => 'testadmin@qq.com',
+                'password' => bcrypt('lwl20030608')
+            ]
+        ];
+
+        foreach ($userArray as $key => $item) {
+            $users[$key]->update($item);
+        }
     }
 }
