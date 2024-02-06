@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CaptchaCodeController;
+use App\Http\Controllers\MenuController;
 use App\Http\Controllers\SignUpController;
 use App\Http\Controllers\UploadFileController;
 use App\Http\Controllers\UserController;
@@ -39,3 +40,5 @@ Route::middleware([AuthMiddleware::class])->group(function () {
     // 更新密码
     Route::post('/admin/user/update_password', [UserController::class, 'updatePassword']);
 });
+
+Route::post('/admin/menu/list', [MenuController::class, 'getMenuList']);

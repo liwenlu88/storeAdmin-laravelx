@@ -20,13 +20,13 @@ class AuthoritySeeder extends Seeder
                 'email' => '2816842036@qq.com',
                 'name' => 'admin',
                 'user_id' => 1,
-                'menu_id' => '1,2,3,4,5,6,7,8,9'
+                'menu_id' => json_encode([1, 2, 3, 4, 5, 6, 7, 8, 9])
             ],
             [
                 'email' => 'testadmin@qq.com',
                 'name' => '测试用户',
                 'user_id' => 2,
-                'menu_id' => '2,3,4,6,7,9'
+                'menu_id' => json_encode([2, 3, 4, 6, 7, 9])
             ]
         ];
 

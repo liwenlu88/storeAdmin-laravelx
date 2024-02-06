@@ -16,7 +16,7 @@ class MenuSeeder extends Seeder
 
         $menuArray = [
             [
-                'name' => '运营概况',
+                'name' => 'Dashboard',
                 'url' => '/',
                 'icon' => 'home-filled',
                 'parent_id' => 0,

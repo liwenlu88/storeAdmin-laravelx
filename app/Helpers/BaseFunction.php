@@ -40,3 +40,32 @@ function statusJson($status, $success, $message, array $content = []): false|str
     ];
     return json_encode($data);
 }
+
+/**
+ *  构建列表树
+ *
+ * @param $listItems
+ * @param int $parentId
+ * @return array
+ */
+function buildListTree($listItems, int $parentId = 0): array
+{
+    $tree = [];
+
+    foreach ($listItems as $menu) {
+        if ($menu['parent_id'] == $parentId) {
+            $children = buildListTree($listItems, $menu['id']);
+            if (!empty($children)) {
+                $menu['children'] = $children;
+            }
+            $tree[] = $menu;
+        }
+    }
+
+    // 先按照 order 字段升序排序
+    usort($tree, function ($a, $b) {
+        return $a['order'] - $b['order'];
+    });
+
+    return $tree;
+}
