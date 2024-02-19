@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 class MenuController extends Controller
 {
     /**
-     *  获取 用户权限对应菜单列表
+     * 用户权限对应菜单列表
      * @param Request $request
      * @return false|string
      */

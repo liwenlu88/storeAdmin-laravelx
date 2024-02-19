@@ -44,7 +44,7 @@ class SignUpController extends Controller
             // 获取当前时间并计算 token 过期的具体时间戳
             $expiresAt = now()->addSeconds($expiresIn)->timestamp;
 
-            return statusJson(200, true, '登录成功', [
+            return statusJson(200, true, 'success', [
                 'user_id' => $id,
                 'access_token' => $token,
                 'expires_at' => $expiresAt
@@ -71,6 +71,6 @@ class SignUpController extends Controller
             return statusJson(400, false, $e->getMessage());
         }
 
-        return statusJson(200, true, '退出成功');
+        return statusJson(200, true, 'success');
     }
 }

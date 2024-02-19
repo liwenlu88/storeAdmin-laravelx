@@ -23,7 +23,7 @@ class UserController extends Controller
             return statusJson(400, false, $e->getMessage());
         }
 
-        return statusJson(200, true, '获取成功', [
+        return statusJson(200, true, 'success', [
             'id' => $user->id,
             'name' => $user->name ?: "无名氏",
             'email' => $user->email,
@@ -50,10 +50,10 @@ class UserController extends Controller
                 'updated_at' => now(),
             ]);
         } catch (Exception $e) {
-            return statusJson(400, false, '修改失败', [$e->getMessage()]);
+            return statusJson(400, false, 'error', [$e->getMessage()]);
         }
 
-        return statusJson(200, true, '修改成功', [
+        return statusJson(200, true, 'success', [
             'id' => $userDetail['id'],
             'name' => $userDetail['name'],
             'email' => $userDetail['email'],
@@ -75,10 +75,10 @@ class UserController extends Controller
         $user = User::where('id', $userDetail['id'])->first(['password']);
         // 验证旧密码是否正确
         if (!password_verify($userDetail['oldPassword'], $user->password)) {
-            return statusJson(400, false, '旧密码错误');
+            return statusJson(400, false, 'error');
         }
 
-        return statusJson(200, true, '旧密码正确');
+        return statusJson(200, true, 'success');
     }
 
     /**
@@ -114,9 +114,9 @@ class UserController extends Controller
                 'updated_at' => now(),
             ]);
         } catch (Exception $e) {
-            return statusJson(400, false, '更新失败', [$e->getMessage()]);
+            return statusJson(400, false, 'error', [$e->getMessage()]);
         }
 
-        return statusJson(200, true, '修改成功');
+        return statusJson(200, true, 'success');
     }
 }

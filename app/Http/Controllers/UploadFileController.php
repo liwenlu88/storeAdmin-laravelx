@@ -32,14 +32,14 @@ class UploadFileController extends Controller
                 // 保存文件 生成文件路径
                 $path = Storage::disk('images')->putFileAs($fileDirectory, $file, $newFileName);
                 // 返回文件路径
-                return statusResponse(200, true, '上传成功', [
+                return statusResponse(200, true, 'success', [
                     'path' => config('app.url') . '/uploads/images/' . $path,
                 ]);
             } catch (Exception $e) {
                 return statusResponse(0, false, $e->getMessage());
             }
         } else {
-            return statusResponse(0, false, '上传失败');
+            return statusResponse(0, false, 'error');
         }
     }
 }

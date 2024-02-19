@@ -39,6 +39,6 @@ Route::middleware([AuthMiddleware::class])->group(function () {
     Route::post('/admin/user/verify_password', [UserController::class, 'verifyPassword']);
     // 更新密码
     Route::post('/admin/user/update_password', [UserController::class, 'updatePassword']);
+    // 用户权限对应菜单列表
+    Route::post('/admin/menu/list', [MenuController::class, 'getMenuList']);
 });
-
-Route::post('/admin/menu/list', [MenuController::class, 'getMenuList']);
