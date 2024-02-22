@@ -17,7 +17,7 @@ return new class extends Migration {
             $table->string('icon');
             $table->integer('parent_id')->default(0);
             $table->integer('order')->default(1);
-            $table->integer('is_deleted')->default(1)->comment('0=deleted, 1=active');
+            $table->string('is_deleted')->default('否')->comment('软删除');
             $table->timestamp('deleted_at')->nullable();
             $table->timestamps();
         });

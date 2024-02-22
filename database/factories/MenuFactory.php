@@ -23,7 +23,7 @@ class MenuFactory extends Factory
             'icon' => '',
             'parent_id' => 0,
             'order' => 1,
-            'is_deleted' => 0
+            'is_deleted' => '否'
         ];
     }
 }

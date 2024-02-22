@@ -18,74 +18,65 @@ class MenuSeeder extends Seeder
             [
                 'name' => 'Dashboard',
                 'url' => '/',
-                'icon' => 'home-filled',
+                'icon' => 'Home-filled',
                 'parent_id' => 0,
                 'order' => 1,
-                'is_deleted' => 0
             ],
             [
                 'name' => '店铺管理',
                 'url' => '/shop/list',
-                'icon' => 'shop',
+                'icon' => 'Shop',
                 'parent_id' => 0,
                 'order' => 2,
-                'is_deleted' => 0
             ],
             [
                 'name' => '商品管理',
                 'url' => '/commodity/list',
-                'icon' => 'goods',
+                'icon' => 'Goods',
                 'parent_id' => 0,
                 'order' => 3,
-                'is_deleted' => 0
             ],
             [
                 'name' => '广告管理',
                 'url' => '/advertise/list',
-                'icon' => 'document',
+                'icon' => 'Document',
                 'parent_id' => 0,
                 'order' => 4,
-                'is_deleted' => 0
             ],
             [
                 'name' => '用户管理',
                 'url' => '/users/list',
-                'icon' => 'user',
+                'icon' => 'User',
                 'parent_id' => 0,
                 'order' => 5,
-                'is_deleted' => 0
             ],
             [
                 'name' => '系统设置',
                 'url' => 'system',
-                'icon' => 'lock',
+                'icon' => 'Lock',
                 'parent_id' => 0,
                 'order' => 6,
-                'is_deleted' => 0
             ],
             [
                 'name' => '设置',
                 'url' => '/system/setting',
-                'icon' => 'setting',
+                'icon' => 'Setting',
                 'parent_id' => 6,
                 'order' => 1,
-                'is_deleted' => 0
             ],
             [
                 'name' => '菜单',
                 'url' => '/system/menus',
-                'icon' => 'menu',
+                'icon' => 'Menu',
                 'parent_id' => 6,
                 'order' => 2,
-                'is_deleted' => 0
             ],
             [
                 'name' => '角色',
                 'url' => '/system/roles',
-                'icon' => 'avatar',
+                'icon' => 'Avatar',
                 'parent_id' => 6,
                 'order' => 3,
-                'is_deleted' => 0
             ]
         ];
 
