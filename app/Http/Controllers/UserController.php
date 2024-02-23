@@ -57,7 +57,7 @@ class UserController extends Controller
             'id' => $userDetail['id'],
             'name' => $userDetail['name'],
             'email' => $userDetail['email'],
-            'avatar' => $userDetail['avatar'],
+            'avatar' => config('app.url') . $userDetail['avatar'],
             'description' => $userDetail['description']
         ]);
     }
