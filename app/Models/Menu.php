@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * @method static whereIn(string $string, $menuIds)
  * @method static paginate(int $int)
+ * @method static where(string $string, int $int)
  */
 class Menu extends Model
 {
@@ -31,4 +32,9 @@ class Menu extends Model
         'created_at' => 'datetime:Y-m-d H:i:s',
         'updated_at' => 'datetime:Y-m-d H:i:s'
     ];
+
+    public function children()
+    {
+        return $this->hasMany(Menu::class, 'parent_id', 'id')->with('children');
+    }
 }

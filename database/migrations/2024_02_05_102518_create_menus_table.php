@@ -15,6 +15,7 @@ return new class extends Migration {
             $table->string('name');
             $table->string('url');
             $table->string('icon');
+            $table->integer('level')->default(1);
             $table->integer('parent_id')->default(0);
             $table->integer('order')->default(1);
             $table->string('is_deleted')->default('否')->comment('软删除');

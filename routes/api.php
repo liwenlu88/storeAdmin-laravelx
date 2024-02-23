@@ -40,5 +40,11 @@ Route::middleware([AuthMiddleware::class])->group(function () {
     // 更新密码
     Route::post('/admin/user/update_password', [UserController::class, 'updatePassword']);
     // 菜单列表 -- 参数type == "aside" (左侧列表) -- 参数type == "all" (菜单列表页)
+    // 菜单新增
+    Route::post('/admin/menu/add', [MenuController::class, 'addMenu']);
+    // 菜单编辑
+    Route::post('/admin/menu/edit', [MenuController::class, 'editMenu']);
+    // 菜单删除
+    Route::post('/admin/menu/delete', [MenuController::class, 'deleteMenu']);
 });
 Route::post('/admin/menu/list', [MenuController::class, 'getMenuList']);

@@ -21,6 +21,7 @@ class MenuFactory extends Factory
             'name' => $this->faker->word(),
             'url' => $this->faker->url(),
             'icon' => '',
+            'level' => 1,
             'parent_id' => 0,
             'order' => 1,
             'is_deleted' => '否'
