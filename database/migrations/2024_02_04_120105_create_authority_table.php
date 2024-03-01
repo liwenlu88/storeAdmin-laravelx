@@ -15,7 +15,7 @@ return new class extends Migration {
             $table->string('email')->unique();
             $table->string('name');
             $table->foreignId('user_id')->constrained('users');
-            $table->json('menu_id')->comment('菜单id');
+            $table->string('menu_id');
             $table->timestamps();
         });
     }

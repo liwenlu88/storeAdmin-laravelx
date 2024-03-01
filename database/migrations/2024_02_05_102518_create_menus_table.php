@@ -15,10 +15,11 @@ return new class extends Migration {
             $table->string('name');
             $table->string('url');
             $table->string('icon');
-            $table->integer('level')->default(1);
+            $table->integer('level')->default(0);
             $table->integer('parent_id')->default(0);
+            $table->boolean('is_visible')->default(true);
             $table->integer('order')->default(1);
-            $table->string('is_deleted')->default('否')->comment('软删除');
+            $table->boolean('is_deleted')->default(false);
             $table->timestamp('deleted_at')->nullable();
             $table->timestamps();
         });

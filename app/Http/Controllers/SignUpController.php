@@ -31,8 +31,8 @@ class SignUpController extends Controller
             // 验证成功后生成一个唯一的 token
             $token = bin2hex(openssl_random_pseudo_bytes(30));
 
-            // token 的过期时间，30 分钟
-            $expiresIn = 1800;
+            // token 的过期时间，300 分钟
+            $expiresIn = 18000;
 
             // 将 token 存储到 Redis 中
             $id = Auth::id();

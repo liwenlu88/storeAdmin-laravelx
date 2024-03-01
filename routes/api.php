@@ -39,12 +39,13 @@ Route::middleware([AuthMiddleware::class])->group(function () {
     Route::post('/admin/user/verify_password', [UserController::class, 'verifyPassword']);
     // 更新密码
     Route::post('/admin/user/update_password', [UserController::class, 'updatePassword']);
-    // 菜单列表 -- 参数type == "aside" (左侧列表) -- 参数type == "all" (菜单列表页)
+    // 菜单列表 -- 参数type == "Aside" (左侧列表) -- 参数type == "All" (菜单列表页)
     Route::post('/admin/menu/list', [MenuController::class, 'getMenuList']);
-    // 菜单新增
-    Route::post('/admin/menu/add', [MenuController::class, 'addMenu']);
-    // 菜单编辑
-    Route::post('/admin/menu/edit', [MenuController::class, 'editMenu']);
+    // 菜单详情
+    Route::post('/admin/menu/detail', [MenuController::class, 'menuDetail']);
+    // 菜单保存 -- 更新 id 不存在 (创建) 反之更新
+    Route::post('/admin/menu/save', [MenuController::class, 'menuSave']);
     // 菜单删除
     Route::post('/admin/menu/delete', [MenuController::class, 'deleteMenu']);
 });
+

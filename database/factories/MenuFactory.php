@@ -21,10 +21,11 @@ class MenuFactory extends Factory
             'name' => $this->faker->word(),
             'url' => $this->faker->url(),
             'icon' => '',
-            'level' => 1,
+            'level' => 0,
             'parent_id' => 0,
+            'is_visible' => true,
             'order' => 1,
-            'is_deleted' => '否'
+            'is_deleted' => false
         ];
     }
 }

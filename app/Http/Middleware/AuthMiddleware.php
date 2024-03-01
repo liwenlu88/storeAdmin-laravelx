@@ -22,8 +22,8 @@ class AuthMiddleware
             return statusResponse(401, false, '请重新登录');
         }
 
-        // 存在则刷新token过期时间 30分钟
-        Redis::expire("user:login:$id:token", 1800);
+        // 存在则刷新token过期时间 300分钟
+        Redis::expire("user:login:$id:token", 18000);
 
         // 存在则放行
         return $next($request);

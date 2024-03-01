@@ -3,14 +3,16 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * @method static whereIn(string $string, $menuIds)
  * @method static paginate(int $int)
  * @method static where(string $string, int $int)
+ * @method static create(array $data)
+ * @method static find(mixed $id)
  */
-class Menu extends Model
+class Menu extends Base
 {
     use HasFactory;
 
@@ -27,13 +29,7 @@ class Menu extends Model
         'order'
     ];
 
-    protected $casts = [
-        'deleted_at' => 'datetime:Y-m-d H:i:s',
-        'created_at' => 'datetime:Y-m-d H:i:s',
-        'updated_at' => 'datetime:Y-m-d H:i:s'
-    ];
-
-    public function children()
+    public function children(): HasMany
     {
         return $this->hasMany(Menu::class, 'parent_id', 'id')->with('children');
     }
