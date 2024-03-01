@@ -36,10 +36,10 @@ class UploadFileController extends Controller
                     'path' => '/uploads/images/' . $path,
                 ]);
             } catch (Exception $e) {
-                return statusResponse(0, false, $e->getMessage());
+                return statusResponse(400, false, $e->getMessage());
             }
         } else {
-            return statusResponse(0, false, 'error');
+            return statusResponse(400, false, 'error');
         }
     }
 }

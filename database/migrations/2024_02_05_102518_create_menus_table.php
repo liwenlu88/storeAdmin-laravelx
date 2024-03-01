@@ -19,8 +19,7 @@ return new class extends Migration {
             $table->integer('parent_id')->default(0);
             $table->boolean('is_visible')->default(true);
             $table->integer('order')->default(1);
-            $table->boolean('is_deleted')->default(false);
-            $table->timestamp('deleted_at')->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

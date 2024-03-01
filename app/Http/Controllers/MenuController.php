@@ -7,7 +7,6 @@ use App\Models\Menu;
 use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
 class MenuController extends Controller
 {
@@ -34,16 +33,16 @@ class MenuController extends Controller
                 ->first();
 
             // 获取菜单列表
-            $menus = Menu::whereIn('id', $menuIds)
+            $res = Menu::whereIn('id', $menuIds)
                 ->select('id', 'name', 'url', 'icon', 'level', 'parent_id', 'order')
                 ->where([
-                    'is_visible' => 1,
-                    'is_deleted' => 0
+                    'is_visible' => 1
                 ])
+                ->with('children')
                 ->get()
                 ->toArray();
 
-            $res = buildListTree($menus);
+            $res = buildListTree($res);
         } elseif ($type == 'All') { //  获取所有菜单列表
             $pageSize = $request->input('page_size', $pageSize);
             // 分页查询 每页20条
@@ -95,12 +94,13 @@ class MenuController extends Controller
                     $authority->save();
                 }
             } else {
-                Menu::where('id', $data['id'])->update($data);
+                Menu::where('id', $data['id'])
+                    ->update($data);
             }
 
             return statusJson(200, true, 'success');
         } catch (Exception $e) {
-            return statusResponse(400, false, $e->getMessage());
+            return statusJson(400, false, $e->getMessage());
         }
     }
 
@@ -114,8 +114,9 @@ class MenuController extends Controller
         $id = $request->input('id');
         try {
             Menu::where('id', $id)
-                ->whereOr('parent_id', $id)
-                ->update(['is_deleted' => 1]);
+                ->orWhere('parent_id', $id)
+                ->delete();
+
             return statusJson(200, true, 'success');
         } catch (Exception $e) {
             return statusJson(400, false, $e->getMessage());

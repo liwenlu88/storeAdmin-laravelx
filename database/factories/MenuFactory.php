@@ -24,8 +24,7 @@ class MenuFactory extends Factory
             'level' => 0,
             'parent_id' => 0,
             'is_visible' => true,
-            'order' => 1,
-            'is_deleted' => false
+            'order' => 1
         ];
     }
 }

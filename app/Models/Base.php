@@ -10,6 +10,11 @@ class Base extends Model
 {
     use HasFactory;
 
+    /**
+     * 类型转换。
+     *
+     * @var array
+     */
     protected $casts = [
         'deleted_at' => 'datetime:Y-m-d H:i:s',
         'created_at' => 'datetime:Y-m-d H:i:s',
@@ -17,7 +22,7 @@ class Base extends Model
     ];
 
     /**
-     * Serialize DateTimeInterface to string
+     * 为 array / JSON 序列化准备日期格式。
      *
      * @param DateTimeInterface $date
      * @return string

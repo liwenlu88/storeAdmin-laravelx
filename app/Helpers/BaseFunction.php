@@ -62,10 +62,20 @@ function buildListTree($listItems, int $parentId = 0): array
         }
     }
 
-    // 先按照 order 字段升序排序
+    // 一级 按照 order 字段升序排序
     usort($tree, function ($a, $b) {
         return $a['order'] - $b['order'];
     });
+
+    // 二级 按照 order 字段升序排序
+    foreach ($tree as $key => $item) {
+        if ($item['children'] != null) {
+            usort($item['children'], function ($a, $b) {
+                return $a['order'] - $b['order'];
+            });
+            $tree[$key]['children'] = array_values($item['children']);
+        }
+    }
 
     return $tree;
 }

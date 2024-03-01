@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * @method static whereIn(string $string, $menuIds)
@@ -15,6 +16,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Menu extends Base
 {
     use HasFactory;
+    use SoftDeletes;
 
     /**
      * 可批量分配.
@@ -28,7 +30,7 @@ class Menu extends Base
         'parent_id',
         'order'
     ];
-
+    
     public function children(): HasMany
     {
         return $this->hasMany(Menu::class, 'parent_id', 'id')->with('children');
