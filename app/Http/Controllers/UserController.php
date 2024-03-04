@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Recycle;
 use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
@@ -114,9 +115,82 @@ class UserController extends Controller
                 'updated_at' => now(),
             ]);
         } catch (Exception $e) {
-            return statusJson(400, false, 'error', [$e->getMessage()]);
+            return statusJson(400, false, $e->getMessage());
         }
 
         return statusJson(200, true, 'success');
+    }
+
+    /**
+     * 获取用户列表
+     * @param Request $request
+     * @param string $name -- 用户名
+     * @param string $email -- 邮箱
+     * @param int $pageSize -- 每页显示数量
+     * @return false|string
+     */
+    public function getUserList(Request $request, string $name = '', string $email = '', int $pageSize = 10): false|string
+    {
+        $name = $request->input('name', $name);
+        $email = $request->input('email', $email);
+        $pageSize = $request->input('page_size', $pageSize);
+
+
+        try {
+            $userList = User::select('id', 'name', 'email', 'avatar', 'created_at')
+                ->where([
+                    ['name', 'like', '%' . $name . '%'],
+                    ['email', 'like', '%' . $email . '%']
+                ])
+                ->orderBy('created_at', 'desc')
+                ->orderBy('id', 'desc')
+                ->paginate($pageSize);
+
+            foreach ($userList as $item) {
+                $item->name = $item->name ?: '无名氏';
+                $item->avatar = $item->avatar ? config('app.url') . $item->avatar : config('app.url') . "/default_picture.jpg";
+            }
+
+            return statusJson(200, true, 'success', json_decode(json_encode($userList), true));
+        } catch (Exception $e) {
+            return statusJson(400, false, $e->getMessage());
+        }
+    }
+
+    /**
+     * 删除用户 -- 软删除
+     * @param Request $request
+     * @return false|string
+     */
+    public function deleteUser(Request $request): false|string
+    {
+        $id = $request->input('id');
+
+        try {
+            User::where('id', $id)
+                ->delete();
+
+            $data = User::withTrashed()
+                ->select('id as item_id', 'name')
+                ->where('id', $id)
+                ->get()
+                ->toArray();
+
+            // 获取到表名
+            $tableName = (new User())->getTable();
+
+            foreach ($data as $key => $item) {
+                $data[$key]['label'] = $tableName;
+                $data[$key]['type'] = '用户';
+                $data[$key]['created_at'] = date('Y-m-d H:i:s', time());
+                $data[$key]['updated_at'] = date('Y-m-d H:i:s', time());
+
+                Recycle::insert($data[$key]);
+            }
+
+            return statusJson(200, true, 'success');
+        } catch (Exception $e) {
+            return statusJson(400, false, $e->getMessage());
+        }
     }
 }

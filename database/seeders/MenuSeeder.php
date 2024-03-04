@@ -12,49 +12,43 @@ class MenuSeeder extends Seeder
      */
     public function run(): void
     {
-        $menus = Menu::factory(9)->create();
+        $menus = Menu::factory(10)->create();
 
         $menuArray = [
             [
                 'name' => 'Dashboard',
                 'url' => '/',
                 'icon' => 'Home-filled',
-                'parent_id' => 0,
                 'order' => 1,
             ],
             [
                 'name' => '店铺管理',
                 'url' => '/shop/list',
                 'icon' => 'Shop',
-                'parent_id' => 0,
                 'order' => 2,
             ],
             [
                 'name' => '商品管理',
                 'url' => '/commodity/list',
                 'icon' => 'Goods',
-                'parent_id' => 0,
                 'order' => 3,
             ],
             [
                 'name' => '广告管理',
                 'url' => '/advertise/list',
                 'icon' => 'Document',
-                'parent_id' => 0,
                 'order' => 4,
             ],
             [
                 'name' => '用户管理',
                 'url' => '/users/list',
                 'icon' => 'User',
-                'parent_id' => 0,
                 'order' => 5,
             ],
             [
                 'name' => '系统设置',
                 'url' => 'system',
                 'icon' => 'Lock',
-                'parent_id' => 0,
                 'order' => 6,
             ],
             [
@@ -80,6 +74,12 @@ class MenuSeeder extends Seeder
                 'level' => 1,
                 'parent_id' => 6,
                 'order' => 3,
+            ],
+            [
+                'name' => '回收站',
+                'url' => '/recycle/list',
+                'icon' => 'Delete',
+                'order' => 7
             ]
         ];
 

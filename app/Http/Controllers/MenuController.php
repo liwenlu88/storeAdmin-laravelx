@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Authority;
 use App\Models\Menu;
+use App\Models\Recycle;
 use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
@@ -18,7 +19,7 @@ class MenuController extends Controller
      * @param int $pageSize
      * @return false|string
      */
-    public function getMenuList(Request $request, int $pageSize = 0): false|string
+    public function getMenuList(Request $request, int $pageSize = 10): false|string
     {
         $id = $request->header('user_id');
         $type = $request->input('type');
@@ -116,6 +117,25 @@ class MenuController extends Controller
             Menu::where('id', $id)
                 ->orWhere('parent_id', $id)
                 ->delete();
+
+            $data = Menu::withTrashed()
+                ->select('id as item_id', 'name')
+                ->where('id', $id)
+                ->orWhere('parent_id', $id)
+                ->get()
+                ->toArray();
+
+            // 获取到表名
+            $tableName = (new Menu())->getTable();
+
+            foreach ($data as $key => $item) {
+                $data[$key]['label'] = $tableName;
+                $data[$key]['type'] = '菜单';
+                $data[$key]['created_at'] = date('Y-m-d H:i:s', time());
+                $data[$key]['updated_at'] = date('Y-m-d H:i:s', time());
+
+                Recycle::insert($data[$key]);
+            }
 
             return statusJson(200, true, 'success');
         } catch (Exception $e) {

@@ -19,6 +19,7 @@ return new class extends Migration {
             $table->string('avatar')->nullable();
             $table->string('description')->nullable();
             $table->rememberToken();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

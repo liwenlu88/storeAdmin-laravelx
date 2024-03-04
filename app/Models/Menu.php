@@ -15,8 +15,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class Menu extends Base
 {
-    use HasFactory;
-    use SoftDeletes;
+    use HasFactory, SoftDeletes;
+
+    protected $table = 'menus';
 
     /**
      * 可批量分配.
@@ -30,7 +31,7 @@ class Menu extends Base
         'parent_id',
         'order'
     ];
-    
+
     public function children(): HasMany
     {
         return $this->hasMany(Menu::class, 'parent_id', 'id')->with('children');
