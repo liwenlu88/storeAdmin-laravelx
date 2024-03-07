@@ -14,6 +14,7 @@ use DateTimeInterface;
  * @method static find(array|string|null $id)
  * @method static where(string $string, array|string|null $header)
  * @method static select(string $string, string $string1, string $string2, string $string3, string $string4)
+ * @method static create(array $array)
  */
 class User extends Authenticatable
 {

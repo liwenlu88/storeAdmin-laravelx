@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Authority;
 use App\Models\Recycle;
 use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 
 class UserController extends Controller
 {
@@ -93,18 +95,21 @@ class UserController extends Controller
         $userDetail = $request->all();
         try {
             // 验证新密码是否符合规则 新密码不能与旧密码相同 并验证新密码 newPassword 与确认密码 confirmPassword 是否一致
-            $validator = Validator::make($userDetail,
+            $validator = Validator::make(
+                $userDetail,
                 [
-                    'newPassword' => 'required|min:6|max:20|different:oldPassword',
+                    'newPassword' => 'required|min:6|max:18|different:oldPassword',
                     'confirmPassword' => 'required|same:newPassword',
-                ], [
+                ],
+                [
                     'newPassword.required' => '新密码不能为空',
                     'newPassword.min' => '新密码不能少于6位',
-                    'newPassword.max' => '新密码不能超过20位',
+                    'newPassword.max' => '新密码不能超过18位',
                     'newPassword.different' => '新密码不能与旧密码相同',
                     'confirmPassword.required' => '确认密码不能为空',
                     'confirmPassword.same' => '确认密码与新密码不一致',
-                ]);
+                ]
+            );
             if ($validator->fails()) {
                 return statusJson(400, false, $validator->errors()->first());
             }
@@ -112,8 +117,8 @@ class UserController extends Controller
             // 修改密码
             User::where('id', $userDetail['id'])->update([
                 'password' => bcrypt($userDetail['newPassword']),
-                'updated_at' => now(),
             ]);
+
         } catch (Exception $e) {
             return statusJson(400, false, $e->getMessage());
         }
@@ -135,7 +140,6 @@ class UserController extends Controller
         $email = $request->input('email', $email);
         $pageSize = $request->input('page_size', $pageSize);
 
-
         try {
             $userList = User::select('id', 'name', 'email', 'avatar', 'created_at')
                 ->where([
@@ -152,6 +156,92 @@ class UserController extends Controller
             }
 
             return statusJson(200, true, 'success', json_decode(json_encode($userList), true));
+        } catch (Exception $e) {
+            return statusJson(400, false, $e->getMessage());
+        }
+    }
+
+    /**
+     * 保存用户
+     * $data['id'] 存在更新 不存在新增
+     * @param Request $request
+     * @return false|string
+     */
+    public function userSave(Request $request): false|string
+    {
+        $data = $request->all();
+
+        try {
+            if (!isset($data['id'])) {
+                $validator = Validator::make(
+                    $data,
+                    [
+                        'name' => 'required|string|min:2|max:18',
+                        'email' => 'required|email|unique:users',
+                        'password' => 'required|min:6|max:18',
+                        'confirmPassword' => 'required|same:password',
+                    ],
+                    [
+                        'name.required' => '用户名不能为空',
+                        'name.min' => '用户名不能少于2个字符',
+                        'name.max' => '用户名不能超过18个字符',
+                        'email.required' => '邮箱不能为空',
+                        'email.email' => '邮箱格式不正确',
+                        'email.unique' => '邮箱已被注册',
+                        'password.required' => '密码不能为空',
+                        'password.min' => '密码不能少于6位',
+                        'password.max' => '密码不能超过18位',
+                        'confirmPassword.required' => '确认密码不能为空',
+                        'confirmPassword.same' => '确认密码与密码不一致',
+                    ]
+                );
+
+                if ($validator->fails()) {
+                    return statusJson(400, false, $validator->errors()->first());
+                }
+
+                // 验证通过
+                $users = User::create([
+                    'name' => $data['name'],
+                    'email' => $data['email'],
+                    'password' => bcrypt($data['password'])
+                ]);
+
+                // 分配权限
+                Authority::create([
+                    'email' => $users->email,
+                    'name' => $users->name,
+                    'user_id' => $users->id,
+                    'menu_id' => $data['menuId'],
+                ]);
+            } else {
+                $validator = Validator::make(
+                    $data,
+                    [
+                        'name' => 'required|string|min:2|max:18',
+                    ],
+                    [
+                        'name.required' => '用户名不能为空',
+                        'name.min' => '用户名不能少于2个字符',
+                        'name.max' => '用户名不能超过18个字符'
+                    ]
+                );
+
+                User::where('id', $data['id'])
+                    ->update([
+                        'name' => $data['name']
+                    ]);
+
+                Authority::where('user_id', $data['id'])
+                    ->update([
+                        'menu_id' => $data['menuId']
+                    ]);
+
+                if ($validator->fails()) {
+                    return statusJson(400, false, $validator->errors()->first());
+                }
+            }
+            return statusJson(200, true, 'success');
         } catch (Exception $e) {
             return statusJson(400, false, $e->getMessage());
         }

@@ -8,6 +8,8 @@
     <title>Laravel</title>
 </head>
 <body>
-<h1>Hello Laravel</h1>
+<h1>Hello, world!</h1>
+<p>This is a sample Laravel application.</p>
+<p>Current time: {{ now() }}</p>
 </body>
 </html>

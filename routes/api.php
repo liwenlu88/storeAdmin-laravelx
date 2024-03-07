@@ -43,6 +43,8 @@ Route::middleware([AuthMiddleware::class])->group(function () {
 
     //  用户列表
     Route::post('/admin/user/list', [UserController::class, 'getUserList']);
+    // 用户保存 -- 更新 id 不存在 (创建) 反之更新
+    Route::post('/admin/user/save', [UserController::class, 'userSave']);
     // 用户详情
     Route::post('/admin/user/detail', [UserController::class, 'getUserDetail']);
     // 用户删除
@@ -50,10 +52,10 @@ Route::middleware([AuthMiddleware::class])->group(function () {
 
     // 菜单列表 -- 参数type == "Aside" (左侧列表) -- 参数type == "All" (菜单列表页)
     Route::post('/admin/menu/list', [MenuController::class, 'getMenuList']);
-    // 菜单详情
-    Route::post('/admin/menu/detail', [MenuController::class, 'menuDetail']);
     // 菜单保存 -- 更新 id 不存在 (创建) 反之更新
     Route::post('/admin/menu/save', [MenuController::class, 'menuSave']);
+    // 菜单详情
+    Route::post('/admin/menu/detail', [MenuController::class, 'menuDetail']);
     // 菜单删除
     Route::post('/admin/menu/delete', [MenuController::class, 'deleteMenu']);
 
